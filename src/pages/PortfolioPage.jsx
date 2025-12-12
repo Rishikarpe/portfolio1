@@ -380,6 +380,50 @@ export default function PortfolioPage() {
                 <li>Increased audience participation</li>
               </ul>
             </div>
+
+            <div className="skill-card">
+              <div className="skill-icon">🤝</div>
+              <h3 className="skill-title">AI Research &amp; Problem Solving</h3>
+              <p className="skill-description">
+                I enjoy solving complex problems by combining AI techniques with domain knowledge.
+              </p>
+              <ul className="skill-list">
+                <li>Focus Areas:</li>
+                <li>Pattern Recognition</li>
+                <li>System Optimization</li>
+                <li>Data-driven Decision Making</li>
+                <li>Cross-domain Integration (AI + IoT)</li>
+              </ul>
+            </div>
+
+            <div className="skill-card">
+              <div className="skill-icon">🔍</div>
+              <h3 className="skill-title">Computer Vision Applications</h3>
+              <p className="skill-description">
+                I work on vision-based systems for detection, tracking, and automation.
+              </p>
+              <ul className="skill-list">
+                <li>Experience Includes:</li>
+                <li>Object Detection &amp; Tracking</li>
+                <li>Image Processing</li>
+                <li>Camera-based Monitoring Systems</li>
+                <li>Edge AI with Raspberry Pi</li>
+              </ul>
+            </div>
+
+            <div className="skill-card">
+              <div className="skill-icon">🧠</div>
+              <h3 className="skill-title">Applied AI Systems</h3>
+              <p className="skill-description">
+                I build end-to-end AI solutions by integrating models with real-world systems.
+              </p>
+              <ul className="skill-list">
+                <li>Key Projects:</li>
+                <li>AI-based Patient Communication System</li>
+                <li>People Counting for Energy Optimization</li>
+                <li>AI-powered Recommendation Systems</li>
+              </ul>
+            </div>
           </div>
         </div>
       </section>

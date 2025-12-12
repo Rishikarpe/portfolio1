@@ -1,9 +1,11 @@
 import { useEffect, useMemo, useRef, useState } from 'react'
+import UnicornStudioEmbed from '../components/UnicornStudioEmbed'
 
 export default function PortfolioPage() {
   const [isNavOpen, setIsNavOpen] = useState(false)
   const [theme, setTheme] = useState('dark')
   const [isFigmaModalOpen, setIsFigmaModalOpen] = useState(false)
+  const [isPastIntro, setIsPastIntro] = useState(false)
 
   const tracks = useMemo(
     () => [
@@ -19,6 +21,7 @@ export default function PortfolioPage() {
   const [volume, setVolume] = useState(1)
 
   const audioRef = useRef(null)
+  const introRef = useRef(null)
 
   // Theme init + apply
   useEffect(() => {
@@ -59,6 +62,26 @@ export default function PortfolioPage() {
       observer.disconnect()
     }
   }, [])
+
+  // Reveal header only after the Unicorn intro hero is scrolled past
+  useEffect(() => {
+    const intro = introRef.current
+    if (!intro) return
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        setIsPastIntro(!entry.isIntersecting)
+      },
+      { threshold: 0.01 },
+    )
+
+    observer.observe(intro)
+    return () => observer.disconnect()
+  }, [])
+
+  useEffect(() => {
+    if (!isPastIntro) setIsNavOpen(false)
+  }, [isPastIntro])
 
   // Audio lifecycle
   useEffect(() => {
@@ -159,7 +182,11 @@ export default function PortfolioPage() {
 
   return (
     <>
-      <header>
+      <section ref={introRef} className="intro-hero visible" aria-label="Hero">
+        <UnicornStudioEmbed projectId="yExpbqWt49dHyxylZg8E" width="100vw" height="100vh" />
+      </section>
+
+      <header className={`site-header ${isPastIntro ? 'is-visible' : ''}`.trim()}>
         <nav className="container">
           <div className="nav-left">
             <a href="#" className="logo">
@@ -235,17 +262,29 @@ export default function PortfolioPage() {
       </header>
 
       <section id="home" className="hero">
-        <video
-          className="background-video"
-          autoPlay
-          muted
-          loop
-          playsInline
-          poster="/assets/hero-poster.jpg"
-          loading="lazy"
-        >
-          <source src="/bg/hero-video.mp4" type="video/mp4" />
-        </video>
+        {isPastIntro ? (
+          <div className="background-unicorn" aria-hidden="true">
+            <UnicornStudioEmbed
+              projectId="mUwWphzzKC1sPidwj9BR"
+              width="100%"
+              height="100%"
+              className="background-unicorn-embed"
+              startWhenVisible
+            />
+          </div>
+        ) : (
+          <video
+            className="background-video"
+            autoPlay
+            muted
+            loop
+            playsInline
+            poster="/assets/hero-poster.jpg"
+            loading="lazy"
+          >
+            <source src="/bg/hero-video.mp4" type="video/mp4" />
+          </video>
+        )}
         <div className="section-overlay"></div>
         <div className="section-vignette"></div>
         <div className="container">
@@ -256,8 +295,8 @@ export default function PortfolioPage() {
               </h1>
               <p className="hero-subtitle">
                 I build innovative solutions using IoT, Python, and web technologies to solve
-                real-world problems like healthcare, automation, and accessibility. Passionate
-                about creating impactful projects with clean code and user-centric design.
+                real-world problems like healthcare, automation, and accessibility. Passionate about
+                creating impactful projects with clean code and user-centric design.
               </p>
               <a
                 href="https://www.linkedin.com/in/rishabhkarpe/"

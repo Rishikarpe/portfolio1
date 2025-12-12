@@ -449,9 +449,36 @@ export default function PortfolioPage() {
           </p>
 
           <div className="company-logos">
-            <div className="company-logo">Improsys</div>
-            <div className="company-logo">Ecesa Council</div>
-            <div className="company-logo">PAN IIT Hackathon Winner</div>
+            <div
+              className="company-logo"
+              data-role="Intern"
+              tabIndex={0}
+              aria-label="Improsys — Intern"
+            >
+              Improsys
+            </div>
+            <div
+              className="company-logo"
+              data-role="Creative Head"
+              tabIndex={0}
+              aria-label="Ecesa Council — Creative Head"
+            >
+              Ecesa Council
+            </div>
+            <div
+              className="company-logo"
+              data-role="Team Member"
+              tabIndex={0}
+              aria-label="PAN IIT Hackathon Winner - Team Member">
+              PAN IIT Hackathon Winner
+            </div>
+            <div
+              className="company-logo"
+              data-role="Team Member"
+              tabIndex={0}
+              aria-label="Runner up in 5+ Hackathons - Team Member">
+              Runner up in 5+ Hackathons
+            </div>
           </div>
 
           <div className="timeline-bar">

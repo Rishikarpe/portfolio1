@@ -393,7 +393,7 @@ section.visible {
 /* Unicorn intro hero (full-screen, no header) */
 .intro-hero {
   position: relative;
-  height: calc(100vh + 80px);
+  height: 100vh;
   margin-top: -80px;
   overflow: hidden;
   padding: 0;

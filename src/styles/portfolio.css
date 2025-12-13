@@ -523,12 +523,21 @@ section.visible {
   width: 100%;
 }
 
+/* Home hero content reveal is controlled by React (4.5s after hero enters view) */
 #home .hero-content {
-  animation: fadeInUp 900ms ease 4.5s both;
+  transition: opacity 900ms var(--ease-out), transform 900ms var(--ease-out);
 }
 
-#home .hero-text {
-  animation: none;
+#home .hero-content.hero-content-hidden {
+  opacity: 0;
+  transform: translateY(20px);
+  pointer-events: none;
+}
+
+#home .hero-content.hero-content-visible {
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: auto;
 }
 
 .hero-text {
@@ -549,9 +558,14 @@ section.visible {
 
 @media (prefers-reduced-motion: reduce) {
   #home .hero-content {
-    animation: none;
+    transition: none;
+  }
+
+  #home .hero-content.hero-content-hidden,
+  #home .hero-content.hero-content-visible {
     opacity: 1;
     transform: none;
+    pointer-events: auto;
   }
 }
 
@@ -1308,6 +1322,12 @@ section.visible {
 /* Blur effect when modal is open */
 body.modal-open {
   overflow: hidden;
+}
+
+body.scroll-locked {
+  overflow: hidden;
+  height: 100vh;
+  overscroll-behavior: none;
 }
 
 body.modal-open > *:not(.modal):not(header) {

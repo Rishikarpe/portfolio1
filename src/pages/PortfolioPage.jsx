@@ -6,6 +6,9 @@ export default function PortfolioPage() {
   const [theme, setTheme] = useState('dark')
   const [isFigmaModalOpen, setIsFigmaModalOpen] = useState(false)
   const [isPastIntro, setIsPastIntro] = useState(false)
+  const [hasVisitedHero, setHasVisitedHero] = useState(false)
+  const [isHeroContentVisible, setIsHeroContentVisible] = useState(false)
+  const [isScrollLockSuspended, setIsScrollLockSuspended] = useState(false)
 
   const tracks = useMemo(
     () => [
@@ -22,6 +25,9 @@ export default function PortfolioPage() {
 
   const audioRef = useRef(null)
   const introRef = useRef(null)
+  const heroRef = useRef(null)
+  const heroRevealTimeoutRef = useRef(null)
+  const scrollLockSuspendTimeoutRef = useRef(null)
 
   // Theme init + apply
   useEffect(() => {
@@ -78,6 +84,83 @@ export default function PortfolioPage() {
     observer.observe(intro)
     return () => observer.disconnect()
   }, [])
+
+  // Lock scrolling while the intro hero is visible (only Enter Site should move the page)
+  useEffect(() => {
+    const locked = !isPastIntro && !isScrollLockSuspended
+    document.body.classList.toggle('scroll-locked', locked)
+
+    if (!locked) return
+
+    const prevent = (e) => {
+      e.preventDefault()
+    }
+
+    const preventKeys = (e) => {
+      const key = e.key
+      const blockedKeys = [
+        'ArrowUp',
+        'ArrowDown',
+        'PageUp',
+        'PageDown',
+        'Home',
+        'End',
+        ' ',
+      ]
+
+      if (blockedKeys.includes(key)) {
+        e.preventDefault()
+      }
+    }
+
+    window.addEventListener('wheel', prevent, { passive: false })
+    window.addEventListener('touchmove', prevent, { passive: false })
+    window.addEventListener('keydown', preventKeys)
+
+    return () => {
+      document.body.classList.remove('scroll-locked')
+      window.removeEventListener('wheel', prevent)
+      window.removeEventListener('touchmove', prevent)
+      window.removeEventListener('keydown', preventKeys)
+    }
+  }, [isPastIntro, isScrollLockSuspended])
+
+  // Hero behavior: background starts when hero is visited; content appears 4.5s after hero enters view
+  useEffect(() => {
+    const hero = heroRef.current
+    if (!hero) return
+
+    const clearPending = () => {
+      if (heroRevealTimeoutRef.current) {
+        clearTimeout(heroRevealTimeoutRef.current)
+        heroRevealTimeoutRef.current = null
+      }
+    }
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setHasVisitedHero(true)
+          if (!isHeroContentVisible && !heroRevealTimeoutRef.current) {
+            heroRevealTimeoutRef.current = setTimeout(() => {
+              setIsHeroContentVisible(true)
+              heroRevealTimeoutRef.current = null
+            }, 4500)
+          }
+        } else {
+          // Only count the 4.5s while the hero is actually in view
+          if (!isHeroContentVisible) clearPending()
+        }
+      },
+      { threshold: 0.35 },
+    )
+
+    observer.observe(hero)
+    return () => {
+      observer.disconnect()
+      clearPending()
+    }
+  }, [isHeroContentVisible])
 
   useEffect(() => {
     if (!isPastIntro) setIsNavOpen(false)
@@ -164,6 +247,17 @@ export default function PortfolioPage() {
   const handleIntroEnterClick = (e) => {
     e.preventDefault()
 
+    if (scrollLockSuspendTimeoutRef.current) {
+      clearTimeout(scrollLockSuspendTimeoutRef.current)
+      scrollLockSuspendTimeoutRef.current = null
+    }
+
+    setIsScrollLockSuspended(true)
+    scrollLockSuspendTimeoutRef.current = setTimeout(() => {
+      setIsScrollLockSuspended(false)
+      scrollLockSuspendTimeoutRef.current = null
+    }, 1200)
+
     const targetElement = document.getElementById('home')
     if (!targetElement) return
 
@@ -171,6 +265,28 @@ export default function PortfolioPage() {
 
     window.scrollTo({
       top: targetElement.offsetTop - 80 + extraOffset,
+      behavior: 'smooth',
+    })
+  }
+
+  const handleLogoClick = (e) => {
+    e.preventDefault()
+
+    if (scrollLockSuspendTimeoutRef.current) {
+      clearTimeout(scrollLockSuspendTimeoutRef.current)
+      scrollLockSuspendTimeoutRef.current = null
+    }
+
+    setIsScrollLockSuspended(true)
+    scrollLockSuspendTimeoutRef.current = setTimeout(() => {
+      setIsScrollLockSuspended(false)
+      scrollLockSuspendTimeoutRef.current = null
+    }, 1200)
+
+    setIsNavOpen(false)
+
+    window.scrollTo({
+      top: 0,
       behavior: 'smooth',
     })
   }
@@ -196,17 +312,17 @@ export default function PortfolioPage() {
 
   return (
     <>
-      <section ref={introRef} className="intro-hero visible" aria-label="Hero">
+      <section id="hero" ref={introRef} className="intro-hero visible" aria-label="Hero">
         <UnicornStudioEmbed projectId="yExpbqWt49dHyxylZg8E" width="100vw" height="100vh" />
         <a href="#home" className="intro-enter" onClick={handleIntroEnterClick}>
-          Enter Site
+          Enter
         </a>
       </section>
 
       <header className={`site-header ${isPastIntro ? 'is-visible' : ''}`.trim()}>
         <nav className="container">
           <div className="nav-left">
-            <a href="#" className="logo">
+            <a href="#hero" className="logo" onClick={handleLogoClick}>
               Rishabh Karpe
             </a>
             <div
@@ -278,34 +394,40 @@ export default function PortfolioPage() {
         </nav>
       </header>
 
-      <section id="home" className="hero">
-        {isPastIntro ? (
-          <div className="background-unicorn" aria-hidden="true">
-            <UnicornStudioEmbed
-              projectId="mUwWphzzKC1sPidwj9BR"
-              width="100%"
-              height="100%"
-              className="background-unicorn-embed"
-              startWhenVisible
-            />
-          </div>
-        ) : (
-          <video
-            className="background-video"
-            autoPlay
-            muted
-            loop
-            playsInline
-            poster="/assets/hero-poster.jpg"
-            loading="lazy"
-          >
-            <source src="/bg/hero-video.mp4" type="video/mp4" />
-          </video>
-        )}
+      <section id="home" className="hero" ref={heroRef}>
+        {hasVisitedHero ? (
+          isPastIntro ? (
+            <div className="background-unicorn" aria-hidden="true">
+              <UnicornStudioEmbed
+                projectId="mUwWphzzKC1sPidwj9BR"
+                width="100%"
+                height="100%"
+                className="background-unicorn-embed"
+                startWhenVisible
+              />
+            </div>
+          ) : (
+            <video
+              className="background-video"
+              autoPlay
+              muted
+              loop
+              playsInline
+              poster="/assets/hero-poster.jpg"
+              loading="lazy"
+            >
+              <source src="/bg/hero-video.mp4" type="video/mp4" />
+            </video>
+          )
+        ) : null}
         <div className="section-overlay"></div>
         <div className="section-vignette"></div>
         <div className="container">
-          <div className="hero-content">
+          <div
+            className={`hero-content ${
+              isHeroContentVisible ? 'hero-content-visible' : 'hero-content-hidden'
+            }`.trim()}
+          >
             <div className="hero-text">
               <h1 className="hero-title">
                 <span className="coder-text">IoT &amp; Software Developer</span>

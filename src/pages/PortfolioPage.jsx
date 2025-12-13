@@ -1,5 +1,66 @@
 import { useEffect, useMemo, useRef, useState } from 'react'
+import { AnimatePresence, motion } from 'motion/react'
 import UnicornStudioEmbed from '../components/UnicornStudioEmbed'
+import { CanvasRevealEffect } from '@/components/ui/canvas-reveal-effect'
+
+function SkillRevealCard({ icon, title, description, label, items }) {
+  const [hovered, setHovered] = useState(false)
+
+  return (
+    <div
+      className={`skill-card skill-card--reveal ${hovered ? 'is-hovered' : ''}`.trim()}
+      onMouseEnter={() => setHovered(true)}
+      onMouseLeave={() => setHovered(false)}
+    >
+      <AnimatePresence>
+        {hovered ? (
+          <motion.div
+            className="skill-card-reveal"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+          >
+            <CanvasRevealEffect
+              animationSpeed={3}
+              containerClassName="bg-black"
+              colors={[[227, 227, 227]]}
+              dotSize={2}
+              showGradient={false}
+            />
+            <div className="skill-card-reveal-mask" />
+          </motion.div>
+        ) : null}
+      </AnimatePresence>
+
+      <div className="skill-card-content">
+        <div className="skill-card-head">
+          <div className="skill-icon">{icon}</div>
+          <h3 className="skill-title">{title}</h3>
+        </div>
+
+        <AnimatePresence>
+          {hovered ? (
+            <motion.div
+              className="skill-card-body"
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: 10 }}
+              transition={{ duration: 0.2 }}
+            >
+              <p className="skill-description">{description}</p>
+              <ul className="skill-list">
+                {label ? <li className="skill-list-label">{label}</li> : null}
+                {items.map((item) => (
+                  <li key={item}>{item}</li>
+                ))}
+              </ul>
+            </motion.div>
+          ) : null}
+        </AnimatePresence>
+      </div>
+    </div>
+  )
+}
 
 export default function PortfolioPage() {
   const [isNavOpen, setIsNavOpen] = useState(false)
@@ -480,90 +541,67 @@ export default function PortfolioPage() {
         <div className="section-vignette"></div>
         <div className="container">
           <div className="skills-grid">
-            <div className="skill-card">
-              <div className="skill-icon">💻</div>
-              <h3 className="skill-title">Programming</h3>
-              <p className="skill-description">
-                I develop solutions using a variety of programming languages and tools.
-              </p>
-              <ul className="skill-list">
-                Languages &amp; Tools:
-                <li>HTML5, CSS3, C, C++</li>
-                <li>Python, Java</li>
-                <li>Raspberry Pi, Automation</li>
-              </ul>
-            </div>
+            <SkillRevealCard
+              icon="💻"
+              title="Programming"
+              description="I develop solutions using a variety of programming languages and tools."
+              label="Languages & Tools:"
+              items={['HTML5, CSS3, C, C++', 'Python, Java', 'Raspberry Pi, Automation']}
+            />
 
-            <div className="skill-card">
-              <div className="skill-icon">🌐</div>
-              <h3 className="skill-title">IoT &amp; Automation</h3>
-              <p className="skill-description">
-                I specialize in IoT systems and automation for real-world applications.
-              </p>
-              <ul className="skill-list">
-                Key Projects:
-                <li>Farm Automation</li>
-                <li>Home Electricity Saving System</li>
-                <li>Smart Healthcare System</li>
-              </ul>
-            </div>
+            <SkillRevealCard
+              icon="🌐"
+              title="IoT & Automation"
+              description="I specialize in IoT systems and automation for real-world applications."
+              label="Key Projects:"
+              items={['Farm Automation', 'Home Electricity Saving System', 'Smart Healthcare System']}
+            />
 
-            <div className="skill-card">
-              <div className="skill-icon">🎨</div>
-              <h3 className="skill-title">Creative Design</h3>
-              <p className="skill-description">
-                I create engaging promotional materials as Creative Head at Ecesa Council.
-              </p>
-              <ul className="skill-list">
-                Experiences:
-                <li>Designed reels, posters, and digital content</li>
-                <li>Increased audience participation</li>
-              </ul>
-            </div>
+            <SkillRevealCard
+              icon="🎨"
+              title="Creative Design"
+              description="I create engaging promotional materials as Creative Head at Ecesa Council."
+              label="Experiences:"
+              items={['Designed reels, posters, and digital content', 'Increased audience participation']}
+            />
 
-            <div className="skill-card">
-              <div className="skill-icon">🤝</div>
-              <h3 className="skill-title">AI Research &amp; Problem Solving</h3>
-              <p className="skill-description">
-                I enjoy solving complex problems by combining AI techniques with domain knowledge.
-              </p>
-              <ul className="skill-list">
-                Focus Areas:
-                <li>Pattern Recognition</li>
-                <li>System Optimization</li>
-                <li>Data-driven Decision Making</li>
-                <li>Cross-domain Integration (AI + IoT)</li>
-              </ul>
-            </div>
+            <SkillRevealCard
+              icon="🤝"
+              title="AI Research & Problem Solving"
+              description="I enjoy solving complex problems by combining AI techniques with domain knowledge."
+              label="Focus Areas:"
+              items={[
+                'Pattern Recognition',
+                'System Optimization',
+                'Data-driven Decision Making',
+                'Cross-domain Integration (AI + IoT)',
+              ]}
+            />
 
-            <div className="skill-card">
-              <div className="skill-icon">🔍</div>
-              <h3 className="skill-title">Computer Vision Applications</h3>
-              <p className="skill-description">
-                I work on vision-based systems for detection, tracking, and automation.
-              </p>
-              <ul className="skill-list">
-                Experience Includes:
-                <li>Object Detection &amp; Tracking</li>
-                <li>Image Processing</li>
-                <li>Camera-based Monitoring Systems</li>
-                <li>Edge AI with Raspberry Pi</li>
-              </ul>
-            </div>
+            <SkillRevealCard
+              icon="🔍"
+              title="Computer Vision Applications"
+              description="I work on vision-based systems for detection, tracking, and automation."
+              label="Experience Includes:"
+              items={[
+                'Object Detection & Tracking',
+                'Image Processing',
+                'Camera-based Monitoring Systems',
+                'Edge AI with Raspberry Pi',
+              ]}
+            />
 
-            <div className="skill-card">
-              <div className="skill-icon">🧠</div>
-              <h3 className="skill-title">Applied AI Systems</h3>
-              <p className="skill-description">
-                I build end-to-end AI solutions by integrating models with real-world systems.
-              </p>
-              <ul className="skill-list">
-                Key Projects:
-                <li>AI-based Patient Communication System</li>
-                <li>People Counting for Energy Optimization</li>
-                <li>AI-powered Recommendation Systems</li>
-              </ul>
-            </div>
+            <SkillRevealCard
+              icon="🧠"
+              title="Applied AI Systems"
+              description="I build end-to-end AI solutions by integrating models with real-world systems."
+              label="Key Projects:"
+              items={[
+                'AI-based Patient Communication System',
+                'People Counting for Energy Optimization',
+                'AI-powered Recommendation Systems',
+              ]}
+            />
           </div>
         </div>
       </section>

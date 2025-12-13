@@ -435,13 +435,16 @@ export default function PortfolioPage() {
               <p className="hero-subtitle">
                I build intelligent, connected systems by combining AI models with IoT hardware and software. My work focuses on real-world automation, smart monitoring, and data-driven decision-making using Python and embedded platforms.
               </p>
-              <a
-                href="https://www.linkedin.com/in/rishabhkarpe/"
-                className="download-cv"
-                style={{ marginTop: '1rem', display: 'inline-block' }}
-              >
-                View LinkedIn
-              </a>
+              <div style={{ marginTop: '1rem' }}>
+                <a
+                  href="https://www.linkedin.com/in/rishabhkarpe/"
+                  className="download-cv"
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  View LinkedIn →
+                </a>
+              </div>
             </div>
             <div className="hero-image">
               <div className="portrait">
@@ -484,7 +487,7 @@ export default function PortfolioPage() {
                 I develop solutions using a variety of programming languages and tools.
               </p>
               <ul className="skill-list">
-                Languages &amp; Tools:
+                <li className="skill-list-label">Languages &amp; Tools:</li>
                 <li>HTML5, CSS3, C, C++</li>
                 <li>Python, Java</li>
                 <li>Raspberry Pi, Automation</li>
@@ -498,7 +501,7 @@ export default function PortfolioPage() {
                 I specialize in IoT systems and automation for real-world applications.
               </p>
               <ul className="skill-list">
-                Key Projects:
+                <li className="skill-list-label">Key Projects:</li>
                 <li>Farm Automation</li>
                 <li>Home Electricity Saving System</li>
                 <li>Smart Healthcare System</li>
@@ -512,7 +515,7 @@ export default function PortfolioPage() {
                 I create engaging promotional materials as Creative Head at Ecesa Council.
               </p>
               <ul className="skill-list">
-                Experiences:
+                <li className="skill-list-label">Experiences:</li>
                 <li>Designed reels, posters, and digital content</li>
                 <li>Increased audience participation</li>
               </ul>
@@ -525,7 +528,7 @@ export default function PortfolioPage() {
                 I enjoy solving complex problems by combining AI techniques with domain knowledge.
               </p>
               <ul className="skill-list">
-                Focus Areas:
+                <li className="skill-list-label">Focus Areas:</li>
                 <li>Pattern Recognition</li>
                 <li>System Optimization</li>
                 <li>Data-driven Decision Making</li>
@@ -540,7 +543,7 @@ export default function PortfolioPage() {
                 I work on vision-based systems for detection, tracking, and automation.
               </p>
               <ul className="skill-list">
-                Experience Includes:
+                <li className="skill-list-label">Experience Includes:</li>
                 <li>Object Detection &amp; Tracking</li>
                 <li>Image Processing</li>
                 <li>Camera-based Monitoring Systems</li>
@@ -555,7 +558,7 @@ export default function PortfolioPage() {
                 I build end-to-end AI solutions by integrating models with real-world systems.
               </p>
               <ul className="skill-list">
-                Key Projects:
+                <li className="skill-list-label">Key Projects:</li>
                 <li>AI-based Patient Communication System</li>
                 <li>People Counting for Energy Optimization</li>
                 <li>AI-powered Recommendation Systems</li>

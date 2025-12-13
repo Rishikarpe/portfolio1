@@ -430,12 +430,10 @@ export default function PortfolioPage() {
           >
             <div className="hero-text">
               <h1 className="hero-title">
-                <span className="coder-text">IoT &amp; Software Developer</span>
+                <span className="coder-text">AI &amp; IoT Developer</span>
               </h1>
               <p className="hero-subtitle">
-                I build innovative solutions using IoT, Python, and web technologies to solve
-                real-world problems like healthcare, automation, and accessibility. Passionate about
-                creating impactful projects with clean code and user-centric design.
+               I build intelligent, connected systems by combining AI models with IoT hardware and software. My work focuses on real-world automation, smart monitoring, and data-driven decision-making using Python and embedded platforms.
               </p>
               <a
                 href="https://www.linkedin.com/in/rishabhkarpe/"

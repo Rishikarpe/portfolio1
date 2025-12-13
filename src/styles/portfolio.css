@@ -419,6 +419,9 @@ section.visible {
 }
 
 .intro-hero .unicorn-embed {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
   width: 100vw !important;
   height: 100vh !important;
   max-width: none;
@@ -427,6 +430,39 @@ section.visible {
   border: 0;
   box-shadow: none;
   background: transparent;
+}
+
+.intro-enter {
+  position: absolute;
+  left: 50%;
+  bottom: 18px;
+  z-index: 30;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 220px;
+  padding: 0.75rem 1rem;
+  border-radius: var(--radius-lg);
+  background: rgba(0, 0, 0, 0.55);
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  color: rgba(255, 255, 255, 0.95);
+  text-decoration: none;
+  font-weight: 600;
+  letter-spacing: 0.2px;
+  backdrop-filter: blur(10px);
+  transform: translateX(-50%);
+  transition: transform 180ms var(--ease-out), filter 180ms var(--ease-out);
+}
+
+.intro-enter:hover {
+  transform: translateX(-50%) translateY(-2px);
+  filter: brightness(1.05);
+}
+
+[data-theme="light"] .intro-enter {
+  background: rgba(255, 255, 255, 0.7);
+  border: 1px solid rgba(14, 23, 45, 0.14);
+  color: rgba(14, 23, 45, 0.95);
 }
 
 /* Main hero Unicorn background (starts on scroll) */

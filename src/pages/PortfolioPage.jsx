@@ -161,6 +161,20 @@ export default function PortfolioPage() {
     setIsNavOpen(false)
   }
 
+  const handleIntroEnterClick = (e) => {
+    e.preventDefault()
+
+    const targetElement = document.getElementById('home')
+    if (!targetElement) return
+
+    const extraOffset = Math.round(window.innerHeight * 0.1)
+
+    window.scrollTo({
+      top: targetElement.offsetTop - 80 + extraOffset,
+      behavior: 'smooth',
+    })
+  }
+
   const togglePlayPause = () => {
     const audio = audioRef.current
     if (!audio) return
@@ -184,6 +198,9 @@ export default function PortfolioPage() {
     <>
       <section ref={introRef} className="intro-hero visible" aria-label="Hero">
         <UnicornStudioEmbed projectId="yExpbqWt49dHyxylZg8E" width="100vw" height="100vh" />
+        <a href="#home" className="intro-enter" onClick={handleIntroEnterClick}>
+          Enter Site
+        </a>
       </section>
 
       <header className={`site-header ${isPastIntro ? 'is-visible' : ''}`.trim()}>

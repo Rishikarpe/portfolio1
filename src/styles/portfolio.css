@@ -981,6 +981,20 @@ section.visible {
   gap: 4rem;
   margin-top: 4rem;
   align-items: center;
+
+  background: color-mix(in srgb, var(--card-bg) 92%, transparent);
+  border: 1px solid var(--card-border);
+  border-radius: var(--radius-lg);
+  padding: 2.25rem;
+  box-shadow: var(--shadow-soft);
+  backdrop-filter: blur(14px);
+  transition: transform 0.25s var(--ease-out), box-shadow 0.25s var(--ease-out), border-color 0.25s var(--ease-out);
+}
+
+.projects-showcase:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-lift);
+  border-color: rgba(94, 252, 232, 0.22);
 }
 
 .project-info {
@@ -998,6 +1012,9 @@ section.visible {
   margin-bottom: 1rem;
   color: var(--text-primary);
   transition: color 0.3s ease;
+
+  font-family: "Teko", system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif;
+  letter-spacing: -0.6px;
 }
 
 .project-type {
@@ -1103,7 +1120,7 @@ section.visible {
 
 .figma-button {
   background: linear-gradient(135deg, var(--accent-primary), var(--accent-tertiary));
-  color: rgba(0, 0, 0, 0.85);
+  color: rgba(255, 255, 255, 0.92);
   padding: 12px 24px;
   border-radius: 20px;
   text-decoration: none;
@@ -1112,7 +1129,7 @@ section.visible {
   display: inline-block;
   cursor: pointer;
   animation: fadeInUp 1s ease forwards;
-  border: none;
+  border: 1px solid rgba(255, 255, 255, 0.14);
   box-shadow: var(--shadow-soft);
   position: relative;
   overflow: hidden;
@@ -1133,13 +1150,17 @@ section.visible {
   box-shadow: var(--shadow-lift);
 }
 
+[data-theme="light"] .figma-button {
+  color: rgba(255, 255, 255, 0.95);
+}
+
 .figma-button:hover::before {
   opacity: 1;
 }
 
 /* Modal Styles */
 .modal {
-  display: none;
+  display: flex;
   position: fixed;
   top: 0;
   left: 0;
@@ -1147,7 +1168,7 @@ section.visible {
   height: 100%;
   background: rgba(0, 0, 0, 0.65);
   backdrop-filter: blur(12px);
-  z-index: 2000;
+  z-index: 5000;
   align-items: center;
   justify-content: center;
 }
@@ -1249,11 +1270,35 @@ body.modal-open #root > *:not(.modal):not(header) {
 
 /* Footer */
 .footer {
-  background: linear-gradient(135deg, var(--accent-secondary), var(--accent-tertiary));
-  color: white;
-  padding: 60px 0;
+  position: relative;
+  overflow: hidden;
+  color: rgba(255, 255, 255, 0.92);
+  padding: 80px 0;
   text-align: center;
   transition: background-color 0.3s ease;
+
+  background:
+    radial-gradient(900px 520px at 20% 10%, rgba(94, 252, 232, 0.18), transparent 60%),
+    radial-gradient(900px 520px at 80% 45%, rgba(168, 85, 247, 0.18), transparent 60%),
+    linear-gradient(135deg, var(--bg-primary), var(--bg-secondary));
+}
+
+.footer::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, rgba(59, 130, 246, 0.25), rgba(168, 85, 247, 0.18));
+  opacity: 0.55;
+  pointer-events: none;
+}
+
+[data-theme="light"] .footer {
+  color: rgba(14, 23, 45, 0.92);
+  background: linear-gradient(135deg, var(--bg-primary), var(--bg-secondary));
+}
+
+[data-theme="light"] .footer::before {
+  opacity: 0.18;
 }
 
 .footer-content {
@@ -1261,10 +1306,19 @@ body.modal-open #root > *:not(.modal):not(header) {
   justify-content: space-between;
   align-items: center;
   margin-bottom: 2rem;
+
+  position: relative;
+  background: var(--card-bg);
+  border: 1px solid var(--card-border);
+  border-radius: var(--radius-lg);
+  padding: 1.25rem 1.5rem;
+  box-shadow: var(--shadow-soft);
+  backdrop-filter: blur(14px);
 }
 
 .footer-text {
   font-size: 1.1rem;
+  color: var(--text-primary);
 }
 
 .social-dots {
@@ -1281,7 +1335,7 @@ body.modal-open #root > *:not(.modal):not(header) {
 .social-dot {
   width: 40px;
   height: 40px;
-  border: 1px solid rgba(255, 255, 255, 0.35);
+  border: 1px solid var(--card-border);
   border-radius: 50%;
   display: flex;
   align-items: center;
@@ -1289,11 +1343,13 @@ body.modal-open #root > *:not(.modal):not(header) {
   cursor: pointer;
   transition: all 0.3s ease;
   font-size: 0.9rem;
+  background: rgba(255, 255, 255, 0.06);
 }
 
 .social-dot:hover {
-  background: white;
+  background: rgba(255, 255, 255, 0.12);
   color: var(--accent-primary);
+  transform: translateY(-2px);
 }
 
 .social-dot:hover .icon {
@@ -1301,7 +1357,8 @@ body.modal-open #root > *:not(.modal):not(header) {
 }
 
 .footer-bottom {
-  border-top: 1px solid rgba(255, 255, 255, 0.2);
+  position: relative;
+  border-top: 1px solid var(--card-border);
   padding-top: 2rem;
   font-size: 0.9rem;
   opacity: 0.9;
@@ -1564,44 +1621,38 @@ body.modal-open #root > *:not(.modal):not(header) {
 }
 
 ::-webkit-scrollbar-track {
-  background: rgba(255, 255, 255, 0.04);
-  border-radius: 999px;
-  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.06);
+  background: rgba(0, 0, 0, 0.35);
+  border-radius: 4px;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: rgba(255, 255, 255, 0.16);
-  border-radius: 999px;
-  border: 2px solid rgba(0, 0, 0, 0);
-  background-clip: padding-box;
+  background: rgba(255, 255, 255, 0.5);
+  border-radius: 4px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: rgba(255, 255, 255, 0.26);
+  background: rgba(255, 255, 255, 0.7);
 }
 
 [data-theme="light"] ::-webkit-scrollbar-track {
-  background: rgba(14, 23, 45, 0.05);
-  box-shadow: inset 0 0 0 1px rgba(14, 23, 45, 0.08);
+  background: rgba(0, 0, 0, 0.08);
 }
 
 [data-theme="light"] ::-webkit-scrollbar-thumb {
-  background: rgba(14, 23, 45, 0.18);
-  border: 2px solid rgba(0, 0, 0, 0);
-  background-clip: padding-box;
+  background: rgba(0, 0, 0, 0.45);
 }
 
 [data-theme="light"] ::-webkit-scrollbar-thumb:hover {
-  background: rgba(14, 23, 45, 0.28);
+  background: rgba(0, 0, 0, 0.65);
 }
 
 html {
   scrollbar-width: thin;
-  scrollbar-color: rgba(255, 255, 255, 0.22) rgba(255, 255, 255, 0.04);
+  scrollbar-color: rgba(255, 255, 255, 0.5) rgba(0, 0, 0, 0.35);
 }
 
 [data-theme="light"] html {
-  scrollbar-color: rgba(14, 23, 45, 0.28) rgba(14, 23, 45, 0.05);
+  scrollbar-color: rgba(0, 0, 0, 0.45) rgba(0, 0, 0, 0.08);
 }
 
 @media (max-width: 768px) {

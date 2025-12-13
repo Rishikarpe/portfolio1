@@ -637,78 +637,91 @@ export default function PortfolioPage() {
             Explore my interactive design prototypes created in Figma, showcasing user-centric
             UI/UX solutions.
           </p>
-          <button className="figma-button" id="openFigmaModal" onClick={() => setIsFigmaModalOpen(true)}>
+          <button
+            type="button"
+            className="figma-button"
+            id="openFigmaModal"
+            onClick={() => setIsFigmaModalOpen(true)}
+          >
             View Prototypes
           </button>
         </div>
       </section>
 
-      <div
-        className="modal"
-        id="figmaModal"
-        style={{ display: isFigmaModalOpen ? 'flex' : 'none' }}
-        onClick={(e) => {
-          if (e.target === e.currentTarget) setIsFigmaModalOpen(false)
-        }}
-      >
-        <div className="modal-content">
-          <span
-            className="modal-close"
-            id="closeFigmaModal"
-            onClick={() => setIsFigmaModalOpen(false)}
-            role="button"
-            tabIndex={0}
-            onKeyDown={(e) => {
-              if (e.key === 'Enter' || e.key === ' ') setIsFigmaModalOpen(false)
-            }}
-          >
-            ×
-          </span>
-          <h2>Figma Prototypes</h2>
-          <p>
-            Here are some of my Figma prototypes showcasing my design work. Click the links below
-            to explore interactive UI/UX designs:
-          </p>
-          <ul className="skill-list">
-            <li>
-              <a
-                href="https://www.figma.com/proto/R9sJdsF29AyzZVR1H82bb4/Trial2?node-id=3-3&t=Eu2gkA2MtviSSRnr-1"
-                target="_blank"
-                rel="noreferrer"
-              >
-                Healthcare Web App Prototype
-              </a>
-            </li>
-            <li>
-              <a
-                href="https://www.figma.com/proto/Fi5BAy46J8tqTw69htxY1u/AgriDrip?node-id=2039-55&t=coUA71LpTzkQsqI3-1"
-                target="_blank"
-                rel="noreferrer"
-              >
-                Farm Produce Management Dashboard
-              </a>
-            </li>
-            <li>
-              <a
-                href="https://blockchainvotingfrontendrishabh.vercel.app/Landing/landing.html"
-                target="_blank"
-                rel="noreferrer"
-              >
-                BlockChain Voting system
-              </a>
-            </li>
-            <li>
-              <a href="https://wpl-trial-irsg.vercel.app/start.html" target="_blank" rel="noreferrer">
-                WellBeing Wave: Your Ultimate fitness Buddy
-              </a>
-            </li>
-          </ul>
-          <p>
-            These prototypes demonstrate my ability to create intuitive and visually appealing
-            interfaces for various applications.
-          </p>
+      {isFigmaModalOpen ? (
+        <div
+          className="modal"
+          id="figmaModal"
+          role="dialog"
+          aria-modal="true"
+          aria-labelledby="figmaModalTitle"
+          onClick={(e) => {
+            if (e.target === e.currentTarget) setIsFigmaModalOpen(false)
+          }}
+          onKeyDown={(e) => {
+            if (e.key === 'Escape') setIsFigmaModalOpen(false)
+          }}
+        >
+          <div className="modal-content">
+            <button
+              type="button"
+              className="modal-close"
+              id="closeFigmaModal"
+              onClick={() => setIsFigmaModalOpen(false)}
+              aria-label="Close"
+            >
+              ×
+            </button>
+            <h2 id="figmaModalTitle">Figma Prototypes</h2>
+            <p>
+              Here are some of my Figma prototypes showcasing my design work. Click the links below
+              to explore interactive UI/UX designs:
+            </p>
+            <ul className="skill-list">
+              <li>
+                <a
+                  href="https://www.figma.com/proto/R9sJdsF29AyzZVR1H82bb4/Trial2?node-id=3-3&t=Eu2gkA2MtviSSRnr-1"
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  Healthcare Web App Prototype
+                </a>
+              </li>
+              <li>
+                <a
+                  href="https://www.figma.com/proto/Fi5BAy46J8tqTw69htxY1u/AgriDrip?node-id=2039-55&t=coUA71LpTzkQsqI3-1"
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  Farm Produce Management Dashboard
+                </a>
+              </li>
+              <li>
+                <a
+                  href="https://blockchainvotingfrontendrishabh.vercel.app/Landing/landing.html"
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  BlockChain Voting system
+                </a>
+              </li>
+              <li>
+                <a
+                  href="https://wpl-trial-irsg.vercel.app/start.html"
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  WellBeing Wave: Your Ultimate fitness Buddy
+                </a>
+              </li>
+            </ul>
+            <p>
+              These prototypes demonstrate my ability to create intuitive and visually appealing
+              interfaces for various applications.
+            </p>
+          </div>
         </div>
-      </div>
+      ) : null}
 
       <footer id="footer" className="footer">
         <div className="container">

@@ -486,7 +486,7 @@ export default function PortfolioPage() {
                 I develop solutions using a variety of programming languages and tools.
               </p>
               <ul className="skill-list">
-                <li>Languages &amp; Tools:</li>
+                Languages &amp; Tools:
                 <li>HTML5, CSS3, C, C++</li>
                 <li>Python, Java</li>
                 <li>Raspberry Pi, Automation</li>
@@ -500,7 +500,7 @@ export default function PortfolioPage() {
                 I specialize in IoT systems and automation for real-world applications.
               </p>
               <ul className="skill-list">
-                <li>Key Projects:</li>
+                Key Projects:
                 <li>Farm Automation</li>
                 <li>Home Electricity Saving System</li>
                 <li>Smart Healthcare System</li>
@@ -514,7 +514,7 @@ export default function PortfolioPage() {
                 I create engaging promotional materials as Creative Head at Ecesa Council.
               </p>
               <ul className="skill-list">
-                <li>Experiences:</li>
+                Experiences:
                 <li>Designed reels, posters, and digital content</li>
                 <li>Increased audience participation</li>
               </ul>
@@ -527,7 +527,7 @@ export default function PortfolioPage() {
                 I enjoy solving complex problems by combining AI techniques with domain knowledge.
               </p>
               <ul className="skill-list">
-                <li>Focus Areas:</li>
+                Focus Areas:
                 <li>Pattern Recognition</li>
                 <li>System Optimization</li>
                 <li>Data-driven Decision Making</li>
@@ -542,7 +542,7 @@ export default function PortfolioPage() {
                 I work on vision-based systems for detection, tracking, and automation.
               </p>
               <ul className="skill-list">
-                <li>Experience Includes:</li>
+                Experience Includes:
                 <li>Object Detection &amp; Tracking</li>
                 <li>Image Processing</li>
                 <li>Camera-based Monitoring Systems</li>
@@ -557,7 +557,7 @@ export default function PortfolioPage() {
                 I build end-to-end AI solutions by integrating models with real-world systems.
               </p>
               <ul className="skill-list">
-                <li>Key Projects:</li>
+                Key Projects:
                 <li>AI-based Patient Communication System</li>
                 <li>People Counting for Energy Optimization</li>
                 <li>AI-powered Recommendation Systems</li>

@@ -487,6 +487,14 @@ section.visible {
   width: 100%;
 }
 
+#home .hero-content {
+  animation: fadeInUp 900ms ease 4.5s both;
+}
+
+#home .hero-text {
+  animation: none;
+}
+
 .hero-text {
   z-index: 2;
   animation: fadeInUp 1s ease forwards;
@@ -500,6 +508,14 @@ section.visible {
   to {
     opacity: 1;
     transform: translateY(0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  #home .hero-content {
+    animation: none;
+    opacity: 1;
+    transform: none;
   }
 }
 

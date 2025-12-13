@@ -19,9 +19,10 @@ function SkillRevealCard({ icon, title, description, label, items }) {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
+            transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
           >
             <CanvasRevealEffect
-              animationSpeed={3}
+              animationSpeed={2}
               containerClassName="bg-black"
               colors={[[227, 227, 227]]}
               dotSize={2}
@@ -42,10 +43,10 @@ function SkillRevealCard({ icon, title, description, label, items }) {
           {hovered ? (
             <motion.div
               className="skill-card-body"
-              initial={{ opacity: 0, y: 10 }}
+              initial={{ opacity: 0, y: 14 }}
               animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: 10 }}
-              transition={{ duration: 0.2 }}
+              exit={{ opacity: 0, y: 14 }}
+              transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
             >
               <p className="skill-description">{description}</p>
               <ul className="skill-list">

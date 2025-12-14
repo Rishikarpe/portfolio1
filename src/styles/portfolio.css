@@ -971,6 +971,52 @@ section.visible {
   pointer-events: none;
 }
 
+/* Mobile/touch: hover doesn't exist, so keep layout stable and avoid large popout transforms */
+@media (hover: none) and (pointer: coarse) {
+  .skill-card.skill-card--reveal {
+    height: auto;
+    min-height: 360px;
+    transform: none;
+  }
+
+  .skill-card.skill-card--reveal.is-hovered {
+    transform: none;
+  }
+
+  .skill-card.skill-card--reveal .skill-card-content {
+    height: auto;
+  }
+
+  .skill-card.skill-card--reveal .skill-card-head {
+    position: relative;
+    left: auto;
+    top: auto;
+    transform: none;
+    padding-top: 0.25rem;
+    transition: none;
+  }
+
+  .skill-card.skill-card--reveal.is-hovered .skill-card-head {
+    top: auto;
+    transform: none;
+  }
+
+  .skill-card.skill-card--reveal .skill-card-body {
+    position: relative;
+    left: auto;
+    right: auto;
+    top: auto;
+    bottom: auto;
+    padding: 0 0.25rem 0.5rem;
+    pointer-events: auto;
+    transition: none;
+  }
+
+  .skill-card.skill-card--reveal.is-hovered .skill-card-body {
+    top: auto;
+  }
+}
+
 .skill-card:nth-child(2) .skill-icon {
   background: var(--accent-secondary);
 }
@@ -1911,6 +1957,21 @@ body.modal-open #root > *:not(.modal):not(header) {
   .footer-content {
     flex-direction: column;
     gap: 2rem;
+  }
+}
+
+@media (max-width: 520px) {
+  .skills {
+    padding: 80px 0;
+  }
+
+  .skills-grid {
+    gap: 1.5rem;
+    margin-top: 2rem;
+  }
+
+  .skill-card {
+    padding: 1.5rem;
   }
 }
 

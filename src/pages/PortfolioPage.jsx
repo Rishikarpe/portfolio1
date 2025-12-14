@@ -5,12 +5,39 @@ import { CanvasRevealEffect } from '@/components/ui/canvas-reveal-effect'
 
 function SkillRevealCard({ icon, title, description, label, items }) {
   const [hovered, setHovered] = useState(false)
+  const [isCoarsePointer, setIsCoarsePointer] = useState(false)
+
+  useEffect(() => {
+    if (typeof window === 'undefined' || typeof window.matchMedia !== 'function') return
+
+    const mediaQuery = window.matchMedia('(hover: none) and (pointer: coarse)')
+    const update = () => setIsCoarsePointer(Boolean(mediaQuery.matches))
+    update()
+
+    if (typeof mediaQuery.addEventListener === 'function') {
+      mediaQuery.addEventListener('change', update)
+      return () => mediaQuery.removeEventListener('change', update)
+    }
+
+    // Safari < 14
+    mediaQuery.addListener(update)
+    return () => mediaQuery.removeListener(update)
+  }, [])
 
   return (
     <div
       className={`skill-card skill-card--reveal ${hovered ? 'is-hovered' : ''}`.trim()}
-      onMouseEnter={() => setHovered(true)}
-      onMouseLeave={() => setHovered(false)}
+      onMouseEnter={isCoarsePointer ? undefined : () => setHovered(true)}
+      onMouseLeave={isCoarsePointer ? undefined : () => setHovered(false)}
+      onClick={isCoarsePointer ? () => setHovered((value) => !value) : undefined}
+      onKeyDown={(event) => {
+        if (event.key === 'Enter' || event.key === ' ') {
+          event.preventDefault()
+          setHovered((value) => !value)
+        }
+      }}
+      role="button"
+      tabIndex={0}
     >
       <AnimatePresence>
         {hovered ? (

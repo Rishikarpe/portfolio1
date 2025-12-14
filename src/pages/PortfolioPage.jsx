@@ -91,10 +91,16 @@ function SkillRevealCard({ icon, title, description, label, items }) {
 }
 
 export default function PortfolioPage() {
+  const getIsCoarsePointer = () => {
+    if (typeof window === 'undefined' || typeof window.matchMedia !== 'function') return false
+    return window.matchMedia('(hover: none) and (pointer: coarse)').matches
+  }
+
   const [isNavOpen, setIsNavOpen] = useState(false)
   const [theme, setTheme] = useState('dark')
   const [isFigmaModalOpen, setIsFigmaModalOpen] = useState(false)
-  const [isPastIntro, setIsPastIntro] = useState(false)
+  const [isCoarsePointer, setIsCoarsePointer] = useState(getIsCoarsePointer)
+  const [isPastIntro, setIsPastIntro] = useState(getIsCoarsePointer)
   const [hasVisitedHero, setHasVisitedHero] = useState(false)
   const [isHeroContentVisible, setIsHeroContentVisible] = useState(false)
   const [isScrollLockSuspended, setIsScrollLockSuspended] = useState(false)
@@ -117,6 +123,28 @@ export default function PortfolioPage() {
   const heroRef = useRef(null)
   const heroRevealTimeoutRef = useRef(null)
   const scrollLockSuspendTimeoutRef = useRef(null)
+
+  useEffect(() => {
+    if (typeof window === 'undefined' || typeof window.matchMedia !== 'function') return
+
+    const mediaQuery = window.matchMedia('(hover: none) and (pointer: coarse)')
+    const update = () => setIsCoarsePointer(Boolean(mediaQuery.matches))
+    update()
+
+    if (typeof mediaQuery.addEventListener === 'function') {
+      mediaQuery.addEventListener('change', update)
+      return () => mediaQuery.removeEventListener('change', update)
+    }
+
+    // Safari < 14
+    mediaQuery.addListener(update)
+    return () => mediaQuery.removeListener(update)
+  }, [])
+
+  // Mobile: bypass the intro gating (no scroll-lock, show header immediately)
+  useEffect(() => {
+    if (isCoarsePointer) setIsPastIntro(true)
+  }, [isCoarsePointer])
 
   // Theme init + apply
   useEffect(() => {
@@ -160,6 +188,7 @@ export default function PortfolioPage() {
 
   // Reveal header only after the Unicorn intro hero is scrolled past
   useEffect(() => {
+    if (isCoarsePointer) return
     const intro = introRef.current
     if (!intro) return
 
@@ -176,6 +205,11 @@ export default function PortfolioPage() {
 
   // Lock scrolling while the intro hero is visible (only Enter Site should move the page)
   useEffect(() => {
+    if (isCoarsePointer) {
+      document.body.classList.remove('scroll-locked')
+      return
+    }
+
     const locked = !isPastIntro && !isScrollLockSuspended
     document.body.classList.toggle('scroll-locked', locked)
 
@@ -212,7 +246,7 @@ export default function PortfolioPage() {
       window.removeEventListener('touchmove', prevent)
       window.removeEventListener('keydown', preventKeys)
     }
-  }, [isPastIntro, isScrollLockSuspended])
+  }, [isPastIntro, isScrollLockSuspended, isCoarsePointer])
 
   // Hero behavior: background starts when hero is visited; content appears 4.5s after hero enters view
   useEffect(() => {
@@ -401,12 +435,14 @@ export default function PortfolioPage() {
 
   return (
     <>
-      <section id="hero" ref={introRef} className="intro-hero visible" aria-label="Hero">
-        <UnicornStudioEmbed projectId="yExpbqWt49dHyxylZg8E" width="100vw" height="100vh" />
-        <a href="#home" className="intro-enter" onClick={handleIntroEnterClick}>
-          Enter
-        </a>
-      </section>
+      {isCoarsePointer ? null : (
+        <section id="hero" ref={introRef} className="intro-hero visible" aria-label="Hero">
+          <UnicornStudioEmbed projectId="yExpbqWt49dHyxylZg8E" width="100vw" height="100vh" />
+          <a href="#home" className="intro-enter" onClick={handleIntroEnterClick}>
+            Enter
+          </a>
+        </section>
+      )}
 
       <header className={`site-header ${isPastIntro ? 'is-visible' : ''}`.trim()}>
         <nav className="container">
@@ -485,7 +521,15 @@ export default function PortfolioPage() {
 
       <section id="home" className="hero" ref={heroRef}>
         {hasVisitedHero ? (
-          isPastIntro ? (
+          isCoarsePointer ? (
+            <img
+              className="background-video"
+              src="/assets/hero-poster.jpg"
+              alt=""
+              aria-hidden="true"
+              loading="lazy"
+            />
+          ) : isPastIntro ? (
             <div className="background-unicorn" aria-hidden="true">
               <UnicornStudioEmbed
                 projectId="mUwWphzzKC1sPidwj9BR"

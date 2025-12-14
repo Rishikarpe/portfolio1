@@ -148,14 +148,20 @@ export default function PortfolioPage() {
 
   // Theme init + apply
   useEffect(() => {
+    if (isCoarsePointer) {
+      setTheme('dark')
+      return
+    }
+
     const currentTheme = localStorage.getItem('theme') || 'dark'
     setTheme(currentTheme)
-  }, [])
+  }, [isCoarsePointer])
 
   useEffect(() => {
-    document.documentElement.setAttribute('data-theme', theme)
-    localStorage.setItem('theme', theme)
-  }, [theme])
+    const nextTheme = isCoarsePointer ? 'dark' : theme
+    document.documentElement.setAttribute('data-theme', nextTheme)
+    if (!isCoarsePointer) localStorage.setItem('theme', nextTheme)
+  }, [theme, isCoarsePointer])
 
   // Body blur when modal open
   useEffect(() => {
@@ -339,6 +345,7 @@ export default function PortfolioPage() {
   }, [volume])
 
   const toggleTheme = () => {
+    if (isCoarsePointer) return
     setTheme((prev) => (prev === 'light' ? 'dark' : 'light'))
   }
 
@@ -463,17 +470,19 @@ export default function PortfolioPage() {
             >
               ☰
             </div>
-            <div
-              className="theme-toggle"
-              id="themeToggle"
-              role="button"
-              aria-label="Toggle between dark and light theme"
-              onClick={toggleTheme}
-              tabIndex={0}
-              onKeyDown={(e) => {
-                if (e.key === 'Enter' || e.key === ' ') toggleTheme()
-              }}
-            ></div>
+            {isCoarsePointer ? null : (
+              <div
+                className="theme-toggle"
+                id="themeToggle"
+                role="button"
+                aria-label="Toggle between dark and light theme"
+                onClick={toggleTheme}
+                tabIndex={0}
+                onKeyDown={(e) => {
+                  if (e.key === 'Enter' || e.key === ' ') toggleTheme()
+                }}
+              ></div>
+            )}
           </div>
           <ul className={`nav-links ${isNavOpen ? 'active' : ''}`}>
             <li>

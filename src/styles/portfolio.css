@@ -2020,6 +2020,10 @@ html {
     display: block;
   }
 
+  .theme-toggle {
+    display: none;
+  }
+
   .nav-links {
     display: none;
     flex-direction: column;

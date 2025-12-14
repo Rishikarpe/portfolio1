@@ -420,14 +420,14 @@ nav {
   font-size: 1.5rem;
   cursor: pointer;
   color: var(--glass-btn-text);
-  width: 44px;
-  height: 44px;
-  border-radius: 999px;
+  width: auto;
+  height: auto;
+  border-radius: 0;
   align-items: center;
   justify-content: center;
-  background: var(--glass-btn-bg);
-  border: 1px solid var(--glass-btn-border);
-  backdrop-filter: blur(10px);
+  background: transparent;
+  border: 0;
+  backdrop-filter: none;
   transition: transform 180ms var(--ease-out), filter 180ms var(--ease-out);
 }
 
@@ -2016,6 +2016,16 @@ html {
 }
 
 @media (max-width: 768px) {
+  nav {
+    position: relative;
+  }
+
+  .nav-left {
+    width: 100%;
+    justify-content: space-between;
+    gap: 0.75rem;
+  }
+
   .hamburger {
     display: block;
   }

@@ -103,7 +103,6 @@ export default function PortfolioPage() {
   const [isPastIntro, setIsPastIntro] = useState(getIsCoarsePointer)
   const [hasVisitedHero, setHasVisitedHero] = useState(false)
   const [isHeroContentVisible, setIsHeroContentVisible] = useState(false)
-  const [isScrollLockSuspended, setIsScrollLockSuspended] = useState(false)
 
   const tracks = useMemo(
     () => [
@@ -122,7 +121,6 @@ export default function PortfolioPage() {
   const introRef = useRef(null)
   const heroRef = useRef(null)
   const heroRevealTimeoutRef = useRef(null)
-  const scrollLockSuspendTimeoutRef = useRef(null)
 
   useEffect(() => {
     if (typeof window === 'undefined' || typeof window.matchMedia !== 'function') return
@@ -208,51 +206,6 @@ export default function PortfolioPage() {
     observer.observe(intro)
     return () => observer.disconnect()
   }, [])
-
-  // Lock scrolling while the intro hero is visible (only Enter Site should move the page)
-  useEffect(() => {
-    if (isCoarsePointer) {
-      document.body.classList.remove('scroll-locked')
-      return
-    }
-
-    const locked = !isPastIntro && !isScrollLockSuspended
-    document.body.classList.toggle('scroll-locked', locked)
-
-    if (!locked) return
-
-    const prevent = (e) => {
-      e.preventDefault()
-    }
-
-    const preventKeys = (e) => {
-      const key = e.key
-      const blockedKeys = [
-        'ArrowUp',
-        'ArrowDown',
-        'PageUp',
-        'PageDown',
-        'Home',
-        'End',
-        ' ',
-      ]
-
-      if (blockedKeys.includes(key)) {
-        e.preventDefault()
-      }
-    }
-
-    window.addEventListener('wheel', prevent, { passive: false })
-    window.addEventListener('touchmove', prevent, { passive: false })
-    window.addEventListener('keydown', preventKeys)
-
-    return () => {
-      document.body.classList.remove('scroll-locked')
-      window.removeEventListener('wheel', prevent)
-      window.removeEventListener('touchmove', prevent)
-      window.removeEventListener('keydown', preventKeys)
-    }
-  }, [isPastIntro, isScrollLockSuspended, isCoarsePointer])
 
   // Hero behavior: background starts when hero is visited; content appears 4.5s after hero enters view
   useEffect(() => {
@@ -377,17 +330,6 @@ export default function PortfolioPage() {
   const handleIntroEnterClick = (e) => {
     e.preventDefault()
 
-    if (scrollLockSuspendTimeoutRef.current) {
-      clearTimeout(scrollLockSuspendTimeoutRef.current)
-      scrollLockSuspendTimeoutRef.current = null
-    }
-
-    setIsScrollLockSuspended(true)
-    scrollLockSuspendTimeoutRef.current = setTimeout(() => {
-      setIsScrollLockSuspended(false)
-      scrollLockSuspendTimeoutRef.current = null
-    }, 1200)
-
     const targetElement = document.getElementById('home')
     if (!targetElement) return
 
@@ -401,17 +343,6 @@ export default function PortfolioPage() {
 
   const handleLogoClick = (e) => {
     e.preventDefault()
-
-    if (scrollLockSuspendTimeoutRef.current) {
-      clearTimeout(scrollLockSuspendTimeoutRef.current)
-      scrollLockSuspendTimeoutRef.current = null
-    }
-
-    setIsScrollLockSuspended(true)
-    scrollLockSuspendTimeoutRef.current = setTimeout(() => {
-      setIsScrollLockSuspended(false)
-      scrollLockSuspendTimeoutRef.current = null
-    }, 1200)
 
     setIsNavOpen(false)
 

@@ -1592,12 +1592,6 @@ body.modal-open {
   overflow: hidden;
 }
 
-body.scroll-locked {
-  overflow: hidden;
-  height: 100vh;
-  overscroll-behavior: none;
-}
-
 body.modal-open > *:not(.modal):not(header) {
   filter: blur(5px);
   transition: filter 0.3s ease;
